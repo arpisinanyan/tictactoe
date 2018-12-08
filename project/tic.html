@@ -1,0 +1,206 @@
+<html>
+<body background = "1234.jpg">  
+<img src="./dav.png" 
+   style="position:absolute; top:216px; left:700px;"/>
+<img src="./medu.png" 
+   style="position:absolute; top:200px; left:950px; width: 430px; "/>
+
+<canvas id='canvas'> </canvas>
+
+
+<img id='imageX' src = './imageX.png' style = 'visibility: hidden;' />
+<img id='imageO' src = './imageO.png' style = 'visibility: hidden;' />
+<script>
+
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const cellSize = 200;
+
+canvas.width = 600;
+canvas.height = 601;
+
+ctx.fillRect(cellSize-5,0,10,cellSize*3);
+ctx.fillRect(cellSize*2-5,0,10,cellSize*3);
+ctx.fillRect(0,cellSize-5,cellSize*3,10);
+ctx.fillRect(0,cellSize*2-5,cellSize*3,10);  
+
+  let turn = 3;
+  let isThereAWinner = false;
+  
+const board = [['','',''],
+               ['','',''],
+               ['','','']];
+
+  const check = function(){
+    
+    //vertical
+    for(i = 0; i < board.length; i++){
+      if(board[0][i] + board[1][i] + board[2][i] === 3 * board[0][i] && board[0][i] !== ''){
+        if(board[0][i] === 0){
+            alert('PlayerX won!');
+        }else if(board[0][i] === 1){
+            alert('PlayerO won!');
+        }
+        isThereAWinner = true;
+      }
+    }
+    //horizontal
+    for(i = 0; i < board.length; i++){
+      if(board[i][0] + board[i][1] + board[i][2] === 3 * board[i][0] && board[i][0] !== ''){
+        if(board[i][0] === 0){
+            alert('PlayerX won!')
+        }else if(board[i][0] === 1){
+            alert('PlayerO won!')
+        }
+        isThereAWinner = true;
+      }
+    }
+    //diagonal
+    if((board[0][0] + board[1][1] + board[2][2] === 3 * board[0][0] || board[0][2] + board[1][1] + board[2][0] === 3 * board[0][2]) && board[0][0] !== ''){
+        if(board[1][1] === 0){
+            alert('PlayerX won!')
+        }else if(board[1][1] === 1){
+            alert('PlayerO won!')
+        }
+        isThereAWinner = true;
+    }
+    
+}
+
+
+  
+  const imageX = document.getElementById('imageX'); 
+  function drawX(x, y){
+    ctx.drawImage(imageX, x+40, y+40, 120, 120)
+  }
+  
+  const imageO = document.getElementById("imageO");
+  
+  function drawO(x, y){
+    ctx.drawImage(imageO, x+40, y+40, 120, 120)
+  }
+
+  function fillBoard() {
+    canvas.addEventListener('click', function(event){
+                              
+                            coordX = event.pageX;
+                            coordY = event.pageY;
+      if((coordX > 0 && coordX < cellSize && coordY > 0 && coordY < cellSize) && board[0][0] === ''){
+        if(turn % 2 === 1){
+          board[0][0] = 0;
+            drawX(0, 0);
+check();
+        }else{
+          board[0][0] = 1;
+            drawO(0, 0);
+check();
+        }
+        turn++;
+        
+        }else if((coordX > cellSize && coordX < cellSize*2 && coordY > 0 && coordY < cellSize) && board[0][1] === ''){
+        if(turn % 2 === 1){
+          board[0][1] = 0;
+            drawX(200, 0);
+check();
+        }else{
+          board[0][1] = 1;
+            drawO(200, 0);
+check();
+        }
+        turn++;
+          
+        }else if((coordX > cellSize*2 && coordX < cellSize*3 && coordY > 0 && coordY < cellSize) && board[0][2] === ''){
+        if(turn % 2 === 1){
+          board[0][2] = 0;
+            drawX(400, 0);
+check();
+        }else{
+          board[0][2] = 1;
+            drawO(400, 0);
+check();
+        }
+        turn++;
+          
+        }else if((coordX > 0 && coordX < cellSize && coordY > cellSize && coordY < cellSize*2) && board[1][0] === ''){
+        if(turn % 2 === 1){
+          board[1][0] = 0;
+            drawX(0, 200);
+check();
+        }else{
+          board[1][0] = 1;
+            drawO(0, 200);
+check();
+        }
+        turn++;
+          
+        }else if((coordX > cellSize && coordX < cellSize*2 && coordY > cellSize && coordY < cellSize*2) && board[1][1] === ''){
+        if(turn % 2 === 1){
+          board[1][1] = 0;
+            drawX(200, 200);
+check();
+        }else{
+          board[1][1] = 1;
+            drawO(200, 200);
+check();
+        }
+        turn++;
+          
+        }else if((coordX > cellSize*2 && coordX < cellSize*3 && coordY > cellSize && coordY < cellSize*2) && board[1][2] === ''){
+        if(turn % 2 === 1){
+          board[1][2] = 0;
+            drawX(400, 200);
+check();
+        }else{
+          board[1][2] = 1;
+            drawO(400, 200);
+check();
+        }
+        turn++;
+          
+        }else if((coordX > 0 && coordX < cellSize && coordY > cellSize*2 && coordY < cellSize*3) && board[2][0] === ''){
+        if(turn % 2 === 1){
+          board[2][0] = 0;
+            drawX(0, 400);
+check();
+        }else{
+          board[2][0] = 1;
+            drawO(0, 400);
+check();
+        }
+        turn++;
+          
+        }else if((coordX > cellSize && coordX < cellSize*2 && coordY > cellSize*2 && coordY < cellSize*3) && board[2][1] === ''){
+        if(turn % 2 === 1){
+          board[2][1] = 0;
+            drawX(200, 400);
+check();
+        }else{
+          board[2][1] = 1;
+            drawO(200, 400);
+check();
+        }
+        turn++;
+          
+        }else if((coordX > cellSize*2 && coordX < cellSize*3 && coordY > cellSize*2 && coordY < cellSize*3) && board[2][2] === ''){
+        if(turn % 2 === 1){
+          board[2][2] = 0;
+            drawX(400, 400);
+check();
+        }else{
+          board[2][2] = 1;
+            drawO(400, 400);
+check();
+        }
+        turn++;
+        }
+               
+                            }                   
+                           )
+
+}
+
+fillBoard();
+</script>
+</body>
+</html>
